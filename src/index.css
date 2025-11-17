@@ -1,7 +1,54 @@
+/* Cherry Bomb One 폰트 (Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Hakgyoansim Dunggeunmiso 폰트 */
+@font-face {
+  font-family: 'Hakgyoansim Dunggeunmiso';
+  src: url('./assets/fonts/Hakgyoansim Dunggeunmiso OTF R.otf')
+    format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hakgyoansim Dunggeunmiso';
+  src: url('./assets/fonts/Hakgyoansim Dunggeunmiso OTF B.otf')
+    format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+body,
+html {
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  font-size: 16px;
+  font-family: 'Pretendard', sans-serif;
+}
+
+:root {
+  --vh: 1vh;
+}
+
+.real-vh {
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.real-vh-min {
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/*
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -69,4 +116,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
