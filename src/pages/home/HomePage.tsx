@@ -15,14 +15,12 @@ function Homepage() {
 
   return (
     <div className="relative h-full">
-      {/* 산 */}
       <img
         src={mountains}
         alt="Mountains"
         className="absolute bottom-0 left-0 w-full h-full pointer-events-none z-0 object-cover object-bottom"
       />
 
-      {/* 크리스마스 집 */}
       <img
         src={christmasHouse}
         alt="Christmas House"
@@ -43,7 +41,7 @@ function Homepage() {
 
       <div className="absolute bottom-[60px] left-1/2 -translate-x-1/2 z-10">
         <p className="text-title-sb-button font-hakgyoansim font-medium text-text-brown text-center mb-[20px] z-10">
-          현재 234명의 사람들이 참여했어요!
+          총 문항 수 12개, 검사시간 약 3분
         </p>
 
         <BottomButton
