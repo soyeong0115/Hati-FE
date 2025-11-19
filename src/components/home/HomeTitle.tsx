@@ -1,3 +1,5 @@
+import { createTextShadow } from '@/utils/textShadow';
+
 interface HomeTitleProps {
   text: string;
   lines?: string[][];
@@ -27,28 +29,9 @@ export default function HomeTitle({
 
   const titleLines = getLines();
 
-  // 각 단어 첫 글자 자동 추출
   const renderWord = (word: string) => {
     const firstLetter = word[0];
     const restLetters = word.slice(1);
-
-    // 바깥쪽만 테두리
-    const createTextShadow = (width: number, color: string) => {
-      const shadows = [];
-      for (let x = -width; x <= width; x++) {
-        for (let y = -width; y <= width; y++) {
-          // 대각선과 직선 방향만
-          if (
-            Math.abs(x) === width ||
-            Math.abs(y) === width ||
-            (Math.abs(x) === Math.abs(y) && Math.abs(x) === width)
-          ) {
-            shadows.push(`${x}px ${y}px 0 ${color}`);
-          }
-        }
-      }
-      return shadows.join(', ');
-    };
 
     const strokeStyle = strokeWidth
       ? {
