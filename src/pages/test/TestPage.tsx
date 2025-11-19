@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BottomButton from '@/components/common/BottomButton';
 import christmasHouse from '@/assets/svgs/common/christmas-house.svg';
 import mountains from '@/assets/svgs/common/mountains.svg';
@@ -7,21 +8,31 @@ import ProgressBar from '@/components/test/ProgressBar';
 import QuestionCounter from '@/components/test/QuestionCounter';
 import QuestionButton from '@/components/test/QuestionButton';
 import { TEST_QUESTIONS } from '@/constants/testQuestions';
+import { calculateMBTI } from '@/constants/testResults';
 
 const TOTAL_QUESTIONS = TEST_QUESTIONS.length;
 
 function TestPage() {
+  const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<number[]>([]);
 
   const currentQuestion = TEST_QUESTIONS[currentQuestionIndex];
 
   const handleNext = () => {
+    if (selectedAnswer === null) return;
+
+    const newAnswers = [...answers, selectedAnswer];
+
     if (currentQuestionIndex < TOTAL_QUESTIONS - 1) {
+      setAnswers(newAnswers);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
     } else {
-      console.log('테스트 완료');
+      const finalAnswers = [...newAnswers, selectedAnswer];
+      const mbti = calculateMBTI(finalAnswers);
+      navigate(`/result?mbti=${mbti}`);
     }
   };
 
@@ -31,14 +42,12 @@ function TestPage() {
 
   return (
     <div className="relative h-full">
-      {/* 산 */}
       <img
         src={mountains}
         alt="Mountains"
         className="absolute bottom-0 left-0 w-full h-full pointer-events-none z-0 object-cover object-bottom blur-[5px]"
       />
-
-      {/* 크리스마스 집 */}
+      
       <img
         src={christmasHouse}
         alt="Christmas House"
