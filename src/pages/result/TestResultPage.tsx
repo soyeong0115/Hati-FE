@@ -17,7 +17,7 @@ function TestResultPage() {
   };
 
   const handleGift = () => {
-    console.log('크리스마스 선물 받기');
+    navigate('/feedback');
   };
 
   const textStrokeStyle = createTextStrokeStyle(2, 'white');
