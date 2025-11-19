@@ -1,0 +1,140 @@
+<svg width="300" height="350" viewBox="0 0 300 350" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- 하늘 배경 (투명) -->
+  <!-- <rect width="300" height="350" fill="#C0CBC3"/> -->
+  
+  <!-- 배경 산들 (제거 - React에서 별도 처리) -->
+  <!-- <path d="M 0 200 L 80 150 L 150 180 L 220 160 L 300 200 L 300 350 L 0 350 Z" fill="#FDF0DF"/> -->
+  
+  <!-- 눈 덮인 땅 (제거 - 홈페이지에서 별도 처리) -->
+  <!-- <rect x="0" y="200" width="300" height="150" fill="#FFFFFF"/> -->
+  
+  <!-- 왼쪽 초록색 집 (일부) -->
+  <rect x="0" y="180" width="60" height="80" fill="#5A8B6A" filter="url(#shadow)"/>
+  <path d="M 0,180 L 25,155 Q 30,150 35,155 L 60,180 Z" fill="#FFFFFF" filter="url(#shadow)"/>
+  <!-- 왼쪽 집 창문 -->
+  <rect x="15" y="195" width="18" height="22" fill="#1A1A1A"/>
+  <rect x="17" y="197" width="14" height="18" fill="#F0E29D"/>
+  <line x1="24" y1="197" x2="24" y2="215" stroke="#1A1A1A" stroke-width="0.8"/>
+  <line x1="17" y1="206" x2="31" y2="206" stroke="#1A1A1A" stroke-width="0.8"/>
+  <!-- 왼쪽 집 문 -->
+  <rect x="25" y="230" width="12" height="30" fill="#3A2A1A"/>
+  <circle cx="31" cy="245" r="1.5" fill="#F0E29D"/>
+  
+  <!-- 메인 빨간 집 -->
+  <!-- 집 본체 -->
+  <rect x="80" y="180" width="140" height="100" fill="#C41E3A" filter="url(#shadow)"/>
+  
+  <!-- 지붕 (눈 덮인 사다리꼴) -->
+  <path d="M 80,180 L 88,140 Q 90,135 92,140 L 208,140 Q 210,135 212,140 L 220,180 Z" fill="#FFFFFF" filter="url(#shadow)"/>
+  
+  <!-- 굴뚝 1 -->
+  <rect x="105" y="120" width="14" height="20" fill="#C41E3A"/>
+  <rect x="102" y="120" width="20" height="6" fill="#8B4513"/>
+  
+  <!-- 굴뚝 2 -->
+  <rect x="181" y="120" width="14" height="20" fill="#C41E3A"/>
+  <rect x="178" y="120" width="20" height="6" fill="#8B4513"/>
+  
+  <!-- 1층 창문 1 (왼쪽) -->
+  <rect x="93" y="220" width="30" height="40" fill="#1A1A1A"/>
+  <rect x="95" y="222" width="26" height="36" fill="#F0E29D"/>
+  <line x1="108" y1="222" x2="108" y2="258" stroke="#1A1A1A" stroke-width="1"/>
+  <line x1="95" y1="240" x2="121" y2="240" stroke="#1A1A1A" stroke-width="1"/>
+  
+  <!-- 1층 창문 2 (중앙) -->
+  <rect x="135" y="220" width="30" height="40" fill="#1A1A1A"/>
+  <rect x="137" y="222" width="26" height="36" fill="#F0E29D"/>
+  <line x1="150" y1="222" x2="150" y2="258" stroke="#1A1A1A" stroke-width="1"/>
+  <line x1="137" y1="240" x2="163" y2="240" stroke="#1A1A1A" stroke-width="1"/>
+  
+  <!-- 1층 창문 3 (오른쪽) -->
+  <rect x="178" y="220" width="30" height="40" fill="#1A1A1A"/>
+  <rect x="180" y="222" width="26" height="36" fill="#F0E29D"/>
+  <line x1="193" y1="222" x2="193" y2="258" stroke="#1A1A1A" stroke-width="1"/>
+  <line x1="180" y1="240" x2="206" y2="240" stroke="#1A1A1A" stroke-width="1"/>
+  
+  <!-- 2층 창문 1 (왼쪽 아치형) -->
+  <rect x="95" y="190" width="25" height="30" fill="#1A1A1A"/>
+  <path d="M 95 190 L 95 220 L 120 220 L 120 190 Q 107.5 185 95 190" fill="#F0E29D"/>
+  <line x1="107.5" y1="190" x2="107.5" y2="220" stroke="#1A1A1A" stroke-width="1"/>
+  
+  <!-- 2층 창문 2 (중앙 아치형) -->
+  <rect x="137.5" y="190" width="25" height="30" fill="#1A1A1A"/>
+  <path d="M 137.5 190 L 137.5 220 L 162.5 220 L 162.5 190 Q 150 185 137.5 190" fill="#F0E29D"/>
+  <line x1="150" y1="190" x2="150" y2="220" stroke="#1A1A1A" stroke-width="1"/>
+  
+  <!-- 2층 창문 3 (오른쪽 아치형) -->
+  <rect x="180" y="190" width="25" height="30" fill="#1A1A1A"/>
+  <path d="M 180 190 L 180 220 L 205 220 L 205 190 Q 192.5 185 180 190" fill="#F0E29D"/>
+  <line x1="192.5" y1="190" x2="192.5" y2="220" stroke="#1A1A1A" stroke-width="1"/>
+  
+  <!-- 문 1 (왼쪽) -->
+  <rect x="105" y="250" width="25" height="30" fill="#2C1810"/>
+  <!-- 문 1 화환 -->
+  <circle cx="115" cy="260" r="8" fill="#228B22" opacity="0.8"/>
+  <circle cx="112" cy="257" r="3" fill="#FF0000"/>
+  <circle cx="118" cy="257" r="3" fill="#F0E29D"/>
+  <circle cx="115" cy="263" r="3" fill="#F0E29D"/>
+  
+  <!-- 문 2 (오른쪽) -->
+  <rect x="170" y="250" width="25" height="30" fill="#2C1810"/>
+  <!-- 문 2 화환 -->
+  <circle cx="180" cy="260" r="8" fill="#228B22" opacity="0.8"/>
+  <circle cx="177" cy="257" r="3" fill="#FF0000"/>
+  <circle cx="183" cy="257" r="3" fill="#F0E29D"/>
+  <circle cx="180" cy="263" r="3" fill="#F0E29D"/>
+  
+  <!-- 선물 가방 1 (왼쪽 문 앞) -->
+  <ellipse cx="117.5" cy="285" rx="15" ry="20" fill="#C41E3A"/>
+  <ellipse cx="117.5" cy="280" rx="12" ry="8" fill="#8B0000"/>
+  <rect x="110" y="275" width="15" height="3" fill="#F0E29D"/>
+  
+  <!-- 선물 가방 2 (오른쪽 문 앞) -->
+  <ellipse cx="182.5" cy="285" rx="15" ry="20" fill="#C41E3A"/>
+  <ellipse cx="182.5" cy="280" rx="12" ry="8" fill="#8B0000"/>
+  <rect x="175" y="275" width="15" height="3" fill="#F0E29D"/>
+  
+  <!-- 오른쪽 크리스마스 트리 (일부) -->
+  <!-- 트리 몸통 -->
+  <rect x="263" y="210" width="9" height="32" fill="#8B4513"/>
+  <!-- 트리 층 1 (가장 아래) -->
+  <path d="M 238 210 Q 238 200 245 189 Q 252 181 259 175 Q 262 173 267 170 Q 272 173 275 175 Q 282 181 289 189 Q 296 200 296 210 Z" fill="#7A9A7A" filter="url(#shadow)"/>
+  <!-- 트리 층 2 -->
+  <path d="M 246 189 Q 246 184 251 177 Q 256 171 261 167 Q 263 166 267 164 Q 271 166 273 167 Q 278 171 283 177 Q 288 184 288 189 Z" fill="#9FC09F" filter="url(#shadow)"/>
+  <!-- 트리 층 3 -->
+  <path d="M 251 179 Q 251 174 255 168 Q 259 163 261 159 Q 263 158 267 156 Q 271 158 273 159 Q 275 163 279 168 Q 283 174 283 179 Z" fill="#7A9A7A" filter="url(#shadow)"/>
+  <!-- 트리 꼭대기 별 -->
+  <path d="M 267 156 L 269 150 L 267 152 L 265 150 Z" fill="#F0E29D"/>
+  <circle cx="267" cy="151" r="2.5" fill="#F0E29D"/>
+  <!-- 트리 장식품 -->
+  <circle cx="252" cy="187" r="3" fill="#FF0000"/>
+  <circle cx="282" cy="184" r="3" fill="#F0E29D"/>
+  <circle cx="255" cy="176" r="2.5" fill="#F0E29D"/>
+  <circle cx="279" cy="171" r="2.5" fill="#FF0000"/>
+  
+  <!-- 눈송이 -->
+  <circle cx="50" cy="50" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="250" cy="80" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="30" cy="120" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="270" cy="140" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="80" cy="30" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="200" cy="40" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="120" cy="60" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="280" cy="100" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="40" cy="90" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="160" cy="70" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="220" cy="50" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="70" cy="110" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="240" cy="120" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="100" cy="45" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="290" cy="60" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="20" cy="70" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="180" cy="90" r="2" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="60" cy="140" r="1.5" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="260" cy="160" r="2" fill="#FFFFFF" opacity="0.9"/>
+</svg>
