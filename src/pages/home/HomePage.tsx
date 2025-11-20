@@ -4,6 +4,7 @@ import christmasHouse from '@/assets/svgs/common/christmas-house.svg';
 import mountains from '@/assets/svgs/common/mountains.svg';
 import Header from '@/components/common/Header';
 import HomeTitle from '@/components/home/HomeTitle';
+import SEO from '@/components/common/SEO';
 
 function Homepage() {
   const navigate = useNavigate();
@@ -14,7 +15,13 @@ function Homepage() {
   };
 
   return (
-    <div className="relative h-full">
+    <>
+      <SEO
+        title="HATI - 연말을 준비하는 나는 어떤 동물일까?"
+        description="총 12개 문항으로 나의 연말 동물 유형을 알아보세요!"
+        url="https://myhati.vercel.app"
+      />
+      <div className="relative h-full">
       <img
         src={mountains}
         alt="Mountains"
@@ -51,6 +58,7 @@ function Homepage() {
         />
       </div>
     </div>
+    </>
   );
 }
 
