@@ -25,6 +25,9 @@ export default function SEO({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
