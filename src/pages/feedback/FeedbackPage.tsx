@@ -1,18 +1,37 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
 import BottomButton from '@/components/common/BottomButton';
 import christmasHouse from '@/assets/svgs/common/christmas-house.svg';
 import mountains from '@/assets/svgs/common/mountains.svg';
 import Header from '@/components/common/Header';
-import { useNavigate } from 'react-router-dom';
+import { submitFeedback } from '@/api/feedback';
 
 function FeedbackPage() {
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState('');
   const [email, setEmail] = useState('');
 
+  const mutation = useMutation({
+    mutationFn: submitFeedback,
+    onSuccess: () => {
+      alert('개발자에게 의견 전달 완료! 감사합니다🎄');
+      navigate('/');
+    },
+    onError: (error: Error) => {
+      alert(`의견 제출에 실패했어요! 다시 시도해주세요ㅠㅠ: ${error.message}`);
+    },
+  });
+
   const handleSubmit = () => {
-    console.log('의견 제출:', { feedback, email });
-    navigate('/');
+    if (!feedback.trim() || !email.trim()) {
+      return;
+    }
+
+    mutation.mutate({
+      feedback: feedback.trim(),
+      email: email.trim(),
+    });
   };
 
   return (
@@ -81,7 +100,7 @@ function FeedbackPage() {
         <BottomButton
           text="개발자에게 보내기"
           onClick={handleSubmit}
-          disabled={!feedback.trim() || !email.trim()}
+          disabled={!feedback.trim() || !email.trim() || mutation.isPending}
         />
       </div>
     </div>
