@@ -48,6 +48,18 @@ html {
   min-height: calc(var(--vh, 1vh) * 100);
 }
 
+/* 터치 디바이스에서는 hover 효과 비활성화 */
+@media (hover: none) {
+  /* Tailwind hover 클래스 강제 무시 */
+  .hover\:bg-hover:hover {
+    background-color: #b92c1e !important; /* main-color 강제 */
+  }
+
+  .hover\:border-main-color:hover {
+    border-color: #e5e7eb !important; /* border-gray-200 강제 */
+  }
+}
+
 /*
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
