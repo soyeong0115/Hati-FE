@@ -20,24 +20,31 @@ function TestPage() {
 
   const currentQuestion = TEST_QUESTIONS[currentQuestionIndex];
 
-  const handleNext = () => {
-    if (selectedAnswer === null) return;
+  const handleAnswerSelect = (answerIndex: number) => {
+    setSelectedAnswer(answerIndex);
 
-    const newAnswers = [...answers, selectedAnswer];
+    const newAnswers = [...answers, answerIndex];
 
     if (currentQuestionIndex < TOTAL_QUESTIONS - 1) {
       setAnswers(newAnswers);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
     } else {
-      const finalAnswers = [...newAnswers, selectedAnswer];
+      const finalAnswers = [...newAnswers, answerIndex];
       const mbti = calculateMBTI(finalAnswers);
       navigate(`/result?mbti=${mbti}`);
     }
   };
 
-  const handleAnswerSelect = (answerIndex: number) => {
-    setSelectedAnswer(answerIndex);
+  const handlePrevious = () => {
+    if (currentQuestionIndex === 0) return;
+
+    const previousIndex = currentQuestionIndex - 1;
+    setCurrentQuestionIndex(previousIndex);
+
+    setSelectedAnswer(null);
+
+    setAnswers(answers.slice(0, previousIndex));
   };
 
   return (
@@ -47,7 +54,7 @@ function TestPage() {
         alt="Mountains"
         className="absolute bottom-0 left-0 w-full h-full pointer-events-none z-0 object-cover object-bottom blur-[5px]"
       />
-      
+
       <img
         src={christmasHouse}
         alt="Christmas House"
@@ -93,16 +100,10 @@ function TestPage() {
         </div>
       </div>
 
-      <div className="absolute bottom-[60px] left-1/2 -translate-x-1/2 z-10">
-        <BottomButton
-          text={
-            currentQuestionIndex === TOTAL_QUESTIONS - 1
-              ? '테스트 결과 보러가기'
-              : '다음'
-          }
-          onClick={handleNext}
-          disabled={selectedAnswer === null}
-        />
+      <div className="absolute bottom-[60px] left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3">
+        {currentQuestionIndex > 0 && (
+          <BottomButton text="이전" onClick={handlePrevious} />
+        )}
       </div>
     </div>
   );
