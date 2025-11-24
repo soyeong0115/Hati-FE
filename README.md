@@ -17,6 +17,7 @@ MBTI 기반의 12개 문항을 통해 나만의 연말 동물 유형을 발견�
 - 🎄 **크리스마스 테마** - 따뜻한 연말 분위기
 - 💬 **피드백 기능** - 사용자 의견 수집
 - 🔗 **링크 공유 최적화** - Open Graph 메타 태그 지원
+- 📤 **결과 공유 기능** - 테스트 결과 친구에게 공유하기 (모바일 네이티브 공유, 웹 URL 복사)
 
 <img width="3600" height="1890" alt="og-image" src="https://github.com/user-attachments/assets/7252a6fd-de70-49a6-8904-f5debd77591f" />
 
@@ -36,6 +37,7 @@ MBTI 기반의 12개 문항을 통해 16가지 연말 동물 유형 중 하나�
 - **공유 기능 강화**: Open Graph 메타 태그를 통한 소셜 미디어 공유 최적화
 - **전체 스택 구현**: Frontend부터 Backend, Database, 배포까지 전 과정 경험
 - **실제 서비스 운영**: 배포 후 실제 사용자 피드백 수집 및 개선
+- **사용자 피드백 반영**: 결과 공유 기능, 이전 버튼 추가, 모바일 UX 개선
 
 ### 프로젝트 선택 이유
 
@@ -53,28 +55,28 @@ MBTI 기반의 12개 문항을 통해 16가지 연말 동물 유형 중 하나�
 
 ## ⚙️ Tech Stack
 
-| 구분                  | 사용 기술                                   |
-| -------------------- | ----------------------------------------- |
-| **Framework**        | React, TypeScript                         |
-| **Styling**          | Tailwind CSS, 커스텀 폰트 (학교안심 둥근미소)    |
-| **State Management** | React-Query, Redux-Toolkit                |
-| **Build Tool**       | Vite                                      |
-| **Deployment**       | Vercel                                    |
-| **Analytics**        | Vercel Analytics, Vercel Speed Insights   |
+| 구분                 | 사용 기술                                     |
+| -------------------- | --------------------------------------------- |
+| **Framework**        | React, TypeScript                             |
+| **Styling**          | Tailwind CSS, 커스텀 폰트 (학교안심 둥근미소) |
+| **State Management** | React-Query, Redux-Toolkit                    |
+| **Build Tool**       | Vite                                          |
+| **Deployment**       | Vercel                                        |
+| **Analytics**        | Vercel Analytics, Vercel Speed Insights       |
 
-----
+---
 
 ## 🗂️ Project Structure
 
-| 폴더명                  | 설명                                      |
-| ----------------------- | ----------------------------------------- |
-| `src/api`               | API 통신 모듈 (피드백 API)                |
-| `src/assets`            | 정적 자산 (폰트, 이미지, SVG)             |
-| `src/components`        | 재사용 가능한 UI 컴포넌트                 |
-| `src/constants`         | 상수 데이터 (테스트 질문, 결과)           |
-| `src/pages`             | 라우팅되는 페이지 컴포넌트                |
-| `src/routes`            | 라우팅 설정                               |
-| `src/utils`             | 공통 유틸 함수 (MBTI 계산, 텍스트 스타일) |
+| 폴더명           | 설명                                      |
+| ---------------- | ----------------------------------------- |
+| `src/api`        | API 통신 모듈 (피드백 API)                |
+| `src/assets`     | 정적 자산 (폰트, 이미지, SVG)             |
+| `src/components` | 재사용 가능한 UI 컴포넌트                 |
+| `src/constants`  | 상수 데이터 (테스트 질문, 결과)           |
+| `src/pages`      | 라우팅되는 페이지 컴포넌트                |
+| `src/routes`     | 라우팅 설정                               |
+| `src/utils`      | 공통 유틸 함수 (MBTI 계산, 텍스트 스타일) |
 
 <details>
 <summary>📂 자세한 폴더 구조 (클릭해서 열기)</summary>
@@ -96,6 +98,7 @@ HATI_FE/
 ├── public/               # 정적 파일
 └── package.json
 ```
+
 </details>
 
 ---
@@ -112,4 +115,3 @@ HATI_FE/
 | ------- |
 | <img src="https://github.com/soyeong0115.png" width="100"/> |
 | <a href="https://github.com/soyeong0115"><img src="https://img.shields.io/badge/soyeong0115-000?style=flat&logo=github&logoColor=white" alt="soyeong0115"/></a> |
-
