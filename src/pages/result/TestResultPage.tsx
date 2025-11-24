@@ -16,10 +16,8 @@ function TestResultPage() {
   const { share, isCopied } = useShare();
 
   const shareUrl = `${window.location.origin}/result?mbti=${mbti}`;
-  const shareTitle = `나의 연말 유형은 ${result.name}!`;
-  const shareDescription = result.description
-    .substring(0, 100)
-    .replace(/\n/g, ' ');
+  const shareTitle = `나의 연말 동물 유형은 ${result.name}!`;
+  const shareDescription = `나의 연말 동물 유형은 ${result.name}! - 친구의 연말 동물 유형 보러가기🐶🎄`;
   // 각 결과의 동물 이미지 Open Graph 이미지로 사용
   const ogImage = `${window.location.origin}/${mbti.toLowerCase()}.png`;
 
@@ -32,9 +30,10 @@ function TestResultPage() {
   };
 
   const handleShare = () => {
+    // 카카오톡은 text를 실제 메시지로 보냄 -> 빈 문자열로 설정
     share({
       title: shareTitle,
-      text: shareDescription,
+      text: '',
       url: shareUrl,
     });
   };
