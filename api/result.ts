@@ -1,6 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 
 const ANIMAL_RESULTS: Record<
   string,
@@ -104,7 +102,7 @@ const ANIMAL_RESULTS: Record<
   },
 };
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { mbti } = req.query;
   const mbtiUpper = typeof mbti === 'string' ? mbti.toUpperCase() : 'ENFP';
   const result = ANIMAL_RESULTS[mbtiUpper] || ANIMAL_RESULTS['ENFP'];
@@ -117,17 +115,29 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   // User-Agent 확인 (크롤러와 일반 브라우저 구분)
   const userAgent = (req.headers['user-agent'] || '').toLowerCase();
 
-  // 크롤러 감지 (카카오톡 크롤러는 보통 "bot" 또는 "crawler" 포함)
+  // 디버깅: User-Agent 로깅
+  console.log('User-Agent:', req.headers['user-agent']);
+  console.log('User-Agent (lowercase):', userAgent);
+
+  // 실제 크롤러만 감지
+  // 카카오톡 인앱 브라우저는 "KakaoTalk"을 포함하지만 크롤러가 아님
+  // 카카오톡 크롤러는 보통 "KakaoTalkBot" 같은 형태
+  // 카카오톡 인앱 브라우저는 "KakaoTalk"을 포함하지만 "bot"은 포함하지 않음
   const isCrawler =
-    userAgent.includes('bot') ||
-    userAgent.includes('crawler') ||
+    (userAgent.includes('bot') &&
+      !userAgent.includes('kakaotalk') &&
+      !userAgent.includes('kakao')) ||
+    (userAgent.includes('crawler') && !userAgent.includes('kakao')) ||
     userAgent.includes('spider') ||
     userAgent.includes('facebookexternalhit') ||
     userAgent.includes('twitterbot') ||
     userAgent.includes('linkedinbot') ||
     userAgent.includes('whatsapp') ||
     userAgent.includes('telegrambot') ||
-    userAgent.includes('slackbot');
+    userAgent.includes('slackbot') ||
+    (userAgent.includes('kakao') && userAgent.includes('bot'));
+
+  console.log('isCrawler:', isCrawler);
 
   // 크롤러인 경우: OG 메타 태그만 있는 정적 HTML 반환
   if (isCrawler) {
@@ -169,11 +179,21 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // 일반 브라우저(카카오톡 인앱 브라우저 포함)인 경우: 실제 index.html을 읽어서 메타 태그만 교체
+  // 일반 브라우저인 경우: 실제 index.html을 fetch해서 메타 태그만 교체
+  // 내부 요청임을 표시하기 위해 특별한 헤더 추가 (무한 루프 방지)
   try {
-    // Vercel에서는 프로덕션 빌드된 index.html을 사용
-    const indexPath = join(process.cwd(), 'index.html');
-    let indexHtml = readFileSync(indexPath, 'utf-8');
+    const baseUrl = `https://${req.headers.host || 'myhati.vercel.app'}`;
+    const indexResponse = await fetch(`${baseUrl}/index.html`, {
+      headers: {
+        'X-Internal-Request': 'true',
+      },
+    });
+
+    if (!indexResponse.ok) {
+      throw new Error(`Failed to fetch index.html: ${indexResponse.status}`);
+    }
+
+    let indexHtml = await indexResponse.text();
 
     // 메타 태그 교체
     indexHtml = indexHtml.replace(
@@ -220,10 +240,12 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.status(200).send(indexHtml);
   } catch (error) {
-    // index.html을 읽을 수 없는 경우 fallback
-    console.error('Failed to read index.html:', error);
+    // fetch 실패 시: 그냥 index.html로 리다이렉트 (무한 루프 방지를 위해 한 번만)
+    console.error('Failed to fetch index.html:', error);
+    // 쿼리 파라미터를 유지하면서 리다이렉트
+    const currentUrl = req.url || `/result?mbti=${mbtiUpper}`;
     res.writeHead(302, {
-      Location: `/result?mbti=${mbtiUpper}`,
+      Location: currentUrl,
     });
     res.end();
   }
