@@ -16,8 +16,8 @@ function TestResultPage() {
   const { share, isCopied } = useShare();
 
   const shareUrl = `${window.location.origin}/result?mbti=${mbti}`;
-  const shareTitle = `나의 연말 동물 유형은 ${result.name}!`;
-  const shareDescription = `나의 연말 동물 유형은 ${result.name}! - 친구의 연말 동물 유형 보러가기🐶🎄`;
+  const shareTitle = `나의 연말 동물 유형은 ${result.name}!${result.emoji}`;
+  const shareDescription = `친구의 연말 동물 유형 보러가기🐶🎄`;
   // 각 결과의 동물 이미지 Open Graph 이미지로 사용
   const ogImage = `${window.location.origin}/${mbti.toLowerCase()}.png`;
 
