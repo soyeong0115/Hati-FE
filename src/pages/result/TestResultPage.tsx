@@ -5,12 +5,18 @@ import mountains from '@/assets/svgs/common/mountains.svg';
 import Header from '@/components/common/Header';
 import { ANIMAL_RESULTS } from '@/constants/testResults';
 import { createTextStrokeStyle } from '@/utils/textShadow';
+import { useShare } from '@/hooks/useShare';
 
 function TestResultPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const mbti = searchParams.get('mbti') || 'ENFP';
   const result = ANIMAL_RESULTS[mbti] || ANIMAL_RESULTS['ENFP'];
+  const { share } = useShare();
+
+  const shareUrl = `${window.location.origin}/result?mbti=${mbti}`;
+  const shareTitle = `나의 연말 유형은 ${result.name}!`;
+  const shareDescription = `${result.description.substring(0, 50)}...`;
 
   const handleRetest = () => {
     navigate('/');
@@ -18,6 +24,14 @@ function TestResultPage() {
 
   const handleGift = () => {
     navigate('/feedback');
+  };
+
+  const handleShare = () => {
+    share({
+      title: shareTitle,
+      text: shareDescription,
+      url: shareUrl,
+    });
   };
 
   const textStrokeStyle = createTextStrokeStyle(2, 'white');
@@ -74,7 +88,16 @@ function TestResultPage() {
             </div>
           </div>
 
-          <div className="mt-8 space-y-3">
+          {/* 공유하기 버튼 */}
+          <div className="mt-8 mb-4">
+            <BottomButton
+              text="친구에게 결과 공유하기"
+              onClick={handleShare}
+              disabled={false}
+            />
+          </div>
+
+          <div className="mt-4 space-y-3">
             <BottomButton
               text="테스트 다시하기"
               onClick={handleRetest}
