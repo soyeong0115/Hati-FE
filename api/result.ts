@@ -112,16 +112,26 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   const ogImage = `https://myhati.vercel.app/${mbtiUpper.toLowerCase()}.png`;
   const shareUrl = `https://myhati.vercel.app/result?mbti=${mbtiUpper}`;
 
-  // User-Agent 확인
-  const userAgent = req.headers['user-agent'] || '';
+  // User-Agent 확인 (대소문자 구분 없이)
+  const userAgent = (req.headers['user-agent'] || '').toLowerCase();
+  
+  // 디버깅: User-Agent 로깅 (Vercel 로그에서 확인 가능)
+  console.log('User-Agent:', req.headers['user-agent']);
+  console.log('User-Agent (lowercase):', userAgent);
+  
   const isCrawler =
-    userAgent.includes('KAKAOTALK') ||
+    userAgent.includes('kakao') ||
     userAgent.includes('facebookexternalhit') ||
-    userAgent.includes('TwitterBot') ||
-    userAgent.includes('LinkedInBot') ||
-    userAgent.includes('WhatsApp') ||
-    userAgent.includes('TelegramBot') ||
-    userAgent.includes('Slackbot');
+    userAgent.includes('twitterbot') ||
+    userAgent.includes('linkedinbot') ||
+    userAgent.includes('whatsapp') ||
+    userAgent.includes('telegrambot') ||
+    userAgent.includes('slackbot') ||
+    userAgent.includes('bot') ||
+    userAgent.includes('crawler') ||
+    userAgent.includes('spider');
+  
+  console.log('isCrawler:', isCrawler);
 
   // 크롤러인 경우 동적 HTML 반환
   if (isCrawler) {
