@@ -163,6 +163,8 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
+  // 일반 브라우저인 경우 실제 index.html을 읽어서 메타 태그만 교체해서 반환
+  // 무한 루프 방지를 위해 리다이렉트 대신 실제 HTML 반환
   const reactHtml = `<!doctype html>
 <html lang="en">
   <head>
