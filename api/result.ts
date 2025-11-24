@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 const ANIMAL_RESULTS: Record<
   string,
@@ -112,28 +114,22 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   const ogImage = `https://myhati.vercel.app/${mbtiUpper.toLowerCase()}.png`;
   const shareUrl = `https://myhati.vercel.app/result?mbti=${mbtiUpper}`;
 
-  // User-Agent 확인 (대소문자 구분 없이)
+  // User-Agent 확인 (크롤러와 일반 브라우저 구분)
   const userAgent = (req.headers['user-agent'] || '').toLowerCase();
-  
-  // 디버깅: User-Agent 로깅 (Vercel 로그에서 확인 가능)
-  console.log('User-Agent:', req.headers['user-agent']);
-  console.log('User-Agent (lowercase):', userAgent);
-  
+
+  // 크롤러 감지 (카카오톡 크롤러는 보통 "bot" 또는 "crawler" 포함)
   const isCrawler =
-    userAgent.includes('kakao') ||
+    userAgent.includes('bot') ||
+    userAgent.includes('crawler') ||
+    userAgent.includes('spider') ||
     userAgent.includes('facebookexternalhit') ||
     userAgent.includes('twitterbot') ||
     userAgent.includes('linkedinbot') ||
     userAgent.includes('whatsapp') ||
     userAgent.includes('telegrambot') ||
-    userAgent.includes('slackbot') ||
-    userAgent.includes('bot') ||
-    userAgent.includes('crawler') ||
-    userAgent.includes('spider');
-  
-  console.log('isCrawler:', isCrawler);
+    userAgent.includes('slackbot');
 
-  // 크롤러인 경우 동적 HTML 반환
+  // 크롤러인 경우: OG 메타 태그만 있는 정적 HTML 반환
   if (isCrawler) {
     const html = `<!DOCTYPE html>
 <html lang="ko">
@@ -173,41 +169,62 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // 일반 브라우저인 경우 실제 index.html을 읽어서 메타 태그만 교체해서 반환
-  // 무한 루프 방지를 위해 리다이렉트 대신 실제 HTML 반환
-  const reactHtml = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${shareTitle}</title>
-    <meta name="description" content="${shareDescription}" />
+  // 일반 브라우저(카카오톡 인앱 브라우저 포함)인 경우: 실제 index.html을 읽어서 메타 태그만 교체
+  try {
+    // Vercel에서는 프로덕션 빌드된 index.html을 사용
+    const indexPath = join(process.cwd(), 'index.html');
+    let indexHtml = readFileSync(indexPath, 'utf-8');
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="${shareUrl}" />
-    <meta property="og:title" content="${shareTitle}" />
-    <meta property="og:description" content="${shareDescription}" />
-    <meta property="og:image" content="${ogImage}" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:site_name" content="HATI" />
+    // 메타 태그 교체
+    indexHtml = indexHtml.replace(
+      /<title>.*?<\/title>/,
+      `<title>${shareTitle}</title>`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+name="description"\s+content=".*?"\s*\/?>/,
+      `<meta name="description" content="${shareDescription}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+property="og:url"\s+content=".*?"\s*\/?>/,
+      `<meta property="og:url" content="${shareUrl}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+property="og:title"\s+content=".*?"\s*\/?>/,
+      `<meta property="og:title" content="${shareTitle}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+property="og:description"\s+content=".*?"\s*\/?>/,
+      `<meta property="og:description" content="${shareDescription}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+property="og:image"\s+content=".*?"\s*\/?>/,
+      `<meta property="og:image" content="${ogImage}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+name="twitter:url"\s+content=".*?"\s*\/?>/,
+      `<meta name="twitter:url" content="${shareUrl}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+name="twitter:title"\s+content=".*?"\s*\/?>/,
+      `<meta name="twitter:title" content="${shareTitle}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+name="twitter:description"\s+content=".*?"\s*\/?>/,
+      `<meta name="twitter:description" content="${shareDescription}" />`,
+    );
+    indexHtml = indexHtml.replace(
+      /<meta\s+name="twitter:image"\s+content=".*?"\s*\/?>/,
+      `<meta name="twitter:image" content="${ogImage}" />`,
+    );
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="${shareUrl}" />
-    <meta name="twitter:title" content="${shareTitle}" />
-    <meta name="twitter:description" content="${shareDescription}" />
-    <meta name="twitter:image" content="${ogImage}" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>`;
-
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.status(200).send(reactHtml);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(200).send(indexHtml);
+  } catch (error) {
+    // index.html을 읽을 수 없는 경우 fallback
+    console.error('Failed to read index.html:', error);
+    res.writeHead(302, {
+      Location: `/result?mbti=${mbtiUpper}`,
+    });
+    res.end();
+  }
 }
