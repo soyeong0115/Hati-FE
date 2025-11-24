@@ -8,8 +8,13 @@ interface UseShareOptions {
 
 export const useShare = () => {
   const [isSharing, setIsSharing] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
-  const share = async ({ title, text, url }: UseShareOptions) => {
+  const share = async ({
+    title,
+    text,
+    url,
+  }: UseShareOptions): Promise<boolean> => {
     setIsSharing(true);
 
     try {
@@ -20,13 +25,17 @@ export const useShare = () => {
           text,
           url,
         });
+        return false;
       } else {
         // Web Share API가 지원되지 않는 경우 URL 복사
         await copyToClipboard(url);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+        return true; // 복사 완료 메시지 표시
       }
     } catch (err) {
-      // 사용자가 공유를 취소한 경우 또는 에러 발생
       console.log('공유가 취소되었습니다.');
+      return false;
     } finally {
       setIsSharing(false);
     }
@@ -36,7 +45,6 @@ export const useShare = () => {
     try {
       await navigator.clipboard.writeText(text);
     } catch (err) {
-      // 클립보드 API가 지원되지 않는 경우 fallback
       const textArea = document.createElement('textarea');
       textArea.value = text;
       document.body.appendChild(textArea);
@@ -46,5 +54,5 @@ export const useShare = () => {
     }
   };
 
-  return { share, isSharing };
+  return { share, isSharing, isCopied };
 };
