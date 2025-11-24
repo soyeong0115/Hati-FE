@@ -2,14 +2,7 @@
   "rewrites": [
     {
       "source": "/result",
-      "destination": "/api/result",
-      "has": [
-        {
-          "type": "header",
-          "key": "user-agent",
-          "value": "(?i).*(kakao|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|slackbot|bot|crawler|spider).*"
-        }
-      ]
+      "destination": "/api/result"
     },
     {
       "source": "/(.*)",
