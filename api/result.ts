@@ -123,6 +123,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     userAgent.includes('TelegramBot') ||
     userAgent.includes('Slackbot');
 
+  // 크롤러인 경우 동적 HTML 반환
   if (isCrawler) {
     const html = `<!DOCTYPE html>
 <html lang="ko">
@@ -162,8 +163,39 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  res.writeHead(302, {
-    Location: shareUrl,
-  });
-  res.end();
+  const reactHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${shareTitle}</title>
+    <meta name="description" content="${shareDescription}" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${shareUrl}" />
+    <meta property="og:title" content="${shareTitle}" />
+    <meta property="og:description" content="${shareDescription}" />
+    <meta property="og:image" content="${ogImage}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:site_name" content="HATI" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="${shareUrl}" />
+    <meta name="twitter:title" content="${shareTitle}" />
+    <meta name="twitter:description" content="${shareDescription}" />
+    <meta name="twitter:image" content="${ogImage}" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>`;
+
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.status(200).send(reactHtml);
 }
